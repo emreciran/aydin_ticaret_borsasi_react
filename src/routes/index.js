@@ -9,6 +9,10 @@ import ProtectedRoute from "./ProtectedRoute";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
 import Home from "../pages/Home";
+import Announcement from "../pages/Announcement";
+import News from "../pages/News";
+import Profile from "../pages/Profile";
+import NewAnnouncement from "../pages/NewAnnouncement";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -16,6 +20,13 @@ const routes = createBrowserRouter(
       <Route element={<ProtectedRoute />}>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Home />} />
+          <Route path="duyuru">
+            <Route index element={<Announcement />} />
+            <Route path="yeni" element={<NewAnnouncement />} />
+          </Route>      
+          <Route path="haber" element={<News />} />
+
+          <Route path="profil" element={<Profile />} />
         </Route>
       </Route>
       <Route path="auth" element={<AuthLayout />}>
