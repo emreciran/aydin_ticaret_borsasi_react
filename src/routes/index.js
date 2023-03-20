@@ -13,6 +13,7 @@ import Announcement from "../pages/Announcement";
 import News from "../pages/News";
 import Profile from "../pages/Profile";
 import NewAnnouncement from "../pages/NewAnnouncement";
+import NewNews from "../pages/NewNews";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -24,7 +25,10 @@ const routes = createBrowserRouter(
             <Route index element={<Announcement />} />
             <Route path="yeni" element={<NewAnnouncement />} />
           </Route>      
-          <Route path="haber" element={<News />} />
+          <Route path="haber">
+            <Route index element={<News />} />
+            <Route path="yeni" element={<NewNews />} />
+          </Route>
 
           <Route path="profil" element={<Profile />} />
         </Route>

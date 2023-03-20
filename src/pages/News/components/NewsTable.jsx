@@ -5,16 +5,15 @@ import {
   GridToolbar,
   GridActionsCellItem,
   trTR,
-  GridRow,
 } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Link } from "react-router-dom";
 
-const AnnouncementTable = ({ pageState, setPageState, DeleteAnnouncement }) => {
+const NewsTable = ({ pageState, setPageState, DeleteNews }) => {
   const columns = [
     { field: "id", headerName: "#" },
-    { field: "title", headerName: "Duyuru Başlığı" },
+    { field: "title", headerName: "Haber Başlığı" },
     { field: "createdDate", headerName: "Oluşturma Zamanı" },
     {
       field: "actions",
@@ -24,9 +23,9 @@ const AnnouncementTable = ({ pageState, setPageState, DeleteAnnouncement }) => {
         <GridActionsCellItem
           icon={<DeleteIcon />}
           label="Sil"
-          onClick={() => DeleteAnnouncement(params.id)}
+          onClick={() => DeleteNews(params.id)}
         />,
-        <Link to={`/duyuru/${params.id}`}>
+        <Link to={`/haber/${params.id}`}>
           <GridActionsCellItem icon={<EditIcon />} label="Güncelle" />
         </Link>,
       ],
@@ -75,4 +74,4 @@ const AnnouncementTable = ({ pageState, setPageState, DeleteAnnouncement }) => {
   );
 };
 
-export default AnnouncementTable;
+export default NewsTable;
