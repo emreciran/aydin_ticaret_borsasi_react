@@ -65,7 +65,7 @@ const NewAnnouncement = () => {
       </Box>
       <Box component="form" noValidate onSubmit={handleFormSubmit}>
         <Grid container>
-          <Grid item sm={12} style={{ marginBottom: 25 }}>
+          <Grid item sm={12} style={{ marginBottom: 27 }}>
             <TextField
               variant="standard"
               fullWidth
