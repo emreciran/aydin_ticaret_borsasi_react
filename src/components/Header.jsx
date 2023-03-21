@@ -15,7 +15,7 @@ import { styled } from "@mui/material/styles";
 import { logout } from "../redux/slices/auth";
 import { Link, useNavigate } from "react-router-dom";
 
-const drawerWidth = 240;
+const drawerWidth = 220;
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",

@@ -18,9 +18,10 @@ import Header from "./Header";
 import CampaignIcon from "@mui/icons-material/Campaign";
 import NewspaperIcon from "@mui/icons-material/Newspaper";
 import HomeIcon from "@mui/icons-material/Home";
+import GroupIcon from '@mui/icons-material/Group';
 import { useNavigate, Outlet } from "react-router-dom";
 
-const drawerWidth = 240;
+const drawerWidth = 220;
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -71,6 +72,7 @@ const Drawer = styled(MuiDrawer, {
 
 const navLinks = [
   { text: "Ana Sayfa", icon: <HomeIcon />, routeName: "/" },
+  { text: "Kullanıcılar", icon: <GroupIcon />, routeName: "kullanicilar" },
   { text: "Duyurular", icon: <CampaignIcon />, routeName: "duyuru" },
   { text: "Haberler", icon: <NewspaperIcon />, routeName: "haber" },
 ];

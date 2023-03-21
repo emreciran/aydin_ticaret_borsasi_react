@@ -10,8 +10,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import Popup from "../../../components/Popup";
 import UpdateNewsForm from "./UpdateNewsForm";
+import CustomNoRowsOverlay from "../../../components/CustomNoRowsOverlay";
 
-const NewsTable = ({ pageState, setPageState, DeleteNews }) => {
+const NewsTable = ({ pageState, setPageState, DeleteNews, getNews }) => {
   const [open, setOpen] = useState(false);
 
   const [rowSelectionModel, setRowSelectionModel] = useState();
@@ -39,7 +40,11 @@ const NewsTable = ({ pageState, setPageState, DeleteNews }) => {
               setOpen={setOpen}
               title={`#${rowSelectionModel?.id} Haber Güncelle`}
             >
-              <UpdateNewsForm data={rowSelectionModel} setOpen={setOpen} />
+              <UpdateNewsForm
+                data={rowSelectionModel}
+                setOpen={setOpen}
+                getNews={getNews}
+              />
             </Popup>
           </>
         );
@@ -73,7 +78,10 @@ const NewsTable = ({ pageState, setPageState, DeleteNews }) => {
     <Box width="100%">
       <DataGrid
         autoHeight
-        components={{ Toolbar: GridToolbar }}
+        slots={{
+          toolbar: GridToolbar,
+          noRowsOverlay: CustomNoRowsOverlay,
+        }}
         rows={rows}
         rowCount={pageState.total}
         loading={pageState.isLoading}

@@ -21,7 +21,7 @@ const News = () => {
 
   const [_showToast] = useToast();
 
-  const getData = async () => {
+  const getNews = async () => {
     try {
       setPageState((old) => ({
         ...old,
@@ -75,7 +75,7 @@ const News = () => {
         .then(async (result) => {
           if (result.isConfirmed) {
             await axiosPrivate.delete(`/news/${id}`);
-            await getData();
+            await getNews();
             swalWithBootstrapButtons.fire(
               "Silindi!",
               "Haber başarıyla silindi!",
@@ -97,7 +97,7 @@ const News = () => {
   };
 
   useEffect(() => {
-    getData();
+    getNews();
   }, [pageState.page, pageState.pageSize]);
 
   return (
@@ -125,6 +125,7 @@ const News = () => {
         pageState={pageState}
         setPageState={setPageState}
         DeleteNews={DeleteNews}
+        getNews={getNews}
       />
     </>
   );

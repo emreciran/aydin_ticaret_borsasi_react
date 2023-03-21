@@ -6,7 +6,7 @@ import { LoadingButton } from "@mui/lab";
 import useToast from "../../../hooks/useToast";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
-const UpdateAnnouncementForm = ({ data, setOpen }) => {
+const UpdateAnnouncementForm = ({ data, setOpen, getAnnouncement }) => {
   const axiosPrivate = useAxiosPrivate();
   const [loading, setLoading] = useState(false);
   const [_showToast] = useToast();
@@ -14,6 +14,7 @@ const UpdateAnnouncementForm = ({ data, setOpen }) => {
   const [title, setTitle] = useState(data?.title);
   const [details, setDetails] = useState(data?.details);
   const [image, setImage] = useState(data?.imageName);
+  const [newImage, setNewImage] = useState();
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -24,23 +25,27 @@ const UpdateAnnouncementForm = ({ data, setOpen }) => {
       formData.append("Id", data?.id);
       formData.append("Title", title);
       formData.append("Details", details);
-      formData.append("ImageFile", image);
+      formData.append("ImageName", image);
+      formData.append("ImageFile", newImage);
       formData.append("CreatedDate", data?.createdDate);
 
-      await axiosPrivate.post("/news", formData);
-      _showToast.showSuccess("Haber güncellendi!");
+      await axiosPrivate.put("/announcements", formData);
+      _showToast.showSuccess("Duyuru güncellendi!");
+      await getAnnouncement();
+      setLoading(false);
+      setOpen(false);
     } catch (error) {
       setLoading(false);
-      _showToast.showError("error", error.response.data.message);
+      _showToast.showError(error.response.data.message);
     }
   };
 
   const handleFile = (e) => {
-    setImage(e.target.files[0]);
+    setNewImage(e.target.files[0]);
   };
 
   return (
-    <Box component="form" noValidate>
+    <Box component="form" noValidate onSubmit={handleFormSubmit}>
       <Grid container>
         <Grid item sm={12} style={{ marginBottom: 25 }}>
           <TextField
@@ -69,7 +74,7 @@ const UpdateAnnouncementForm = ({ data, setOpen }) => {
             </FormLabel>
             {image != null && (
               <img
-                src={`https://localhost:7203/Images/${image}`}
+                src={`${process.env.REACT_APP_SERVER_URL}/Images/${image}`}
                 alt=""
                 width="100%"
               />
@@ -99,7 +104,7 @@ const UpdateAnnouncementForm = ({ data, setOpen }) => {
           loading={loading}
           loadingIndicator="Loading…"
         >
-          <span>Oluştur</span>
+          <span>Güncelle</span>
         </LoadingButton>
       </Box>
     </Box>

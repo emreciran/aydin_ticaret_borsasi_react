@@ -1,30 +1,60 @@
 import React, { useState } from "react";
-import { Box } from "@mui/material";
+import { Box, Tooltip, Typography } from "@mui/material";
 import {
   DataGrid,
   GridToolbar,
   GridActionsCellItem,
   trTR,
 } from "@mui/x-data-grid";
-import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import Popup from "../../../components/Popup";
-import UpdateAnnouncementForm from "./UpdateAnnouncementForm";
+import UpdateUserForm from "./UpdateUserForm";
 import CustomNoRowsOverlay from "../../../components/CustomNoRowsOverlay";
 
-const AnnouncementTable = ({
-  pageState,
-  setPageState,
-  DeleteAnnouncement,
-  getAnnouncement,
-}) => {
+const UsersTable = ({ pageState, setPageState, getUsers }) => {
   const [open, setOpen] = useState(false);
 
   const [rowSelectionModel, setRowSelectionModel] = useState();
 
   const columns = [
     { field: "id", headerName: "#" },
-    { field: "title", headerName: "Duyuru Başlığı" },
+    { field: "name", headerName: "Adı" },
+    { field: "surname", headerName: "Soyadı" },
+    { field: "email", headerName: "Email" },
+    { field: "username", headerName: "Kullanıcı Adı" },
+    {
+      field: "status",
+      headerName: "Durumu",
+      type: "singleSelect",
+      valueOptions: [
+        { value: true, label: "Aktif" },
+        { value: false, label: "Pasif" },
+      ],
+      editable: true,
+      renderCell: ({ row }) => {
+        return (
+          <Tooltip title="Güncellemek için çift tıklayınız.">
+            <Box
+              width="100%"
+              m="0 auto"
+              p="5px"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              borderRadius="4px"
+              sx={{
+                cursor: "pointer",
+                backgroundColor: row.status === true ? "#5D9C59" : "#FC2947",
+              }}
+            >
+              <Typography color="#fff">
+                {row.status === true ? "Aktif" : "Pasif"}
+              </Typography>
+            </Box>
+          </Tooltip>
+        );
+      },
+    },
     { field: "createdDate", headerName: "Oluşturma Zamanı" },
     {
       field: "update",
@@ -43,28 +73,11 @@ const AnnouncementTable = ({
             <Popup
               open={open}
               setOpen={setOpen}
-              title={`#${rowSelectionModel?.id} Duyuru Güncelle`}
+              title={`#${rowSelectionModel?.id} Kullanıcı Güncelle`}
             >
-              <UpdateAnnouncementForm
-                data={rowSelectionModel}
-                setOpen={setOpen}
-                getAnnouncement={getAnnouncement}
-              />
+              <UpdateUserForm data={rowSelectionModel} setOpen={setOpen} getUsers={getUsers} />
             </Popup>
           </>
-        );
-      },
-    },
-    {
-      field: "delete",
-      headerName: "Sil",
-      renderCell: (params) => {
-        return (
-          <GridActionsCellItem
-            icon={<DeleteIcon />}
-            label="Sil"
-            onClick={() => DeleteAnnouncement(params.id)}
-          />
         );
       },
     },
@@ -72,10 +85,12 @@ const AnnouncementTable = ({
 
   const rows = pageState?.data
     ? pageState?.data.map((row) => ({
-        id: row.id,
-        title: row.title,
-        details: row.details,
-        imageName: row.imageName,
+        id: row.useR_ID,
+        name: row.name,
+        surname: row.surname,
+        email: row.email,
+        username: row.username,
+        status: row.status,
         createdDate: row.createdDate,
       }))
     : "";
@@ -94,6 +109,7 @@ const AnnouncementTable = ({
         pagination
         page={pageState.page - 1}
         pageSize={pageState.pageSize}
+        onCellEditStop={() => console.log("dsasad")}
         getRowId={(row) => row.id}
         hideFooterSelectedRowCount
         onRowSelectionModelChange={(ids) => {
@@ -123,4 +139,4 @@ const AnnouncementTable = ({
   );
 };
 
-export default AnnouncementTable;
+export default UsersTable;

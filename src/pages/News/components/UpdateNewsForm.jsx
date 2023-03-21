@@ -6,7 +6,7 @@ import { LoadingButton } from "@mui/lab";
 import useToast from "../../../hooks/useToast";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
-const UpdateNewsForm = ({ data, setOpen }) => {
+const UpdateNewsForm = ({ data, setOpen, getNews }) => {
   const axiosPrivate = useAxiosPrivate();
   const [loading, setLoading] = useState(false);
   const [_showToast] = useToast();
@@ -14,13 +14,38 @@ const UpdateNewsForm = ({ data, setOpen }) => {
   const [title, setTitle] = useState(data?.title);
   const [details, setDetails] = useState(data?.details);
   const [image, setImage] = useState(data?.imageName);
+  const [newImage, setNewImage] = useState();
 
   const handleFile = (e) => {
-    setImage(e.target.files[0]);
+    setNewImage(e.target.files[0]);
+  };
+
+  const updateNews = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const formData = new FormData();
+
+      formData.append("Id", data?.id);
+      formData.append("Title", title);
+      formData.append("Details", details);
+      formData.append("ImageName", image);
+      formData.append("ImageFile", newImage);
+      formData.append("CreatedDate", data?.createdDate);
+
+      await axiosPrivate.put("/news", formData);
+      _showToast.showSuccess("Haber güncellendi!");
+      await getNews();
+      setLoading(false);
+      setOpen(false);
+    } catch (error) {
+      setLoading(false);
+      _showToast.showError(error.response.data.message);
+    }
   };
 
   return (
-    <Box component="form" noValidate>
+    <Box component="form" noValidate onSubmit={updateNews}>
       <Grid container>
         <Grid item sm={12} style={{ marginBottom: 25 }}>
           <TextField
@@ -49,7 +74,7 @@ const UpdateNewsForm = ({ data, setOpen }) => {
             </FormLabel>
             {image != null && (
               <img
-                src={`https://localhost:7203/Images/${image}`}
+                src={`${process.env.REACT_APP_SERVER_URL}/Images/${image}`}
                 alt=""
                 width="100%"
               />
@@ -79,7 +104,7 @@ const UpdateNewsForm = ({ data, setOpen }) => {
           loading={loading}
           loadingIndicator="Loading…"
         >
-          <span>Oluştur</span>
+          <span>Güncelle</span>
         </LoadingButton>
       </Box>
     </Box>
