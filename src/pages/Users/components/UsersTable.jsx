@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Tooltip, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import {
   DataGrid,
   GridToolbar,
@@ -25,33 +25,24 @@ const UsersTable = ({ pageState, setPageState, getUsers }) => {
     {
       field: "status",
       headerName: "Durumu",
-      type: "singleSelect",
-      valueOptions: [
-        { value: true, label: "Aktif" },
-        { value: false, label: "Pasif" },
-      ],
-      editable: true,
       renderCell: ({ row }) => {
         return (
-          <Tooltip title="Güncellemek için çift tıklayınız.">
-            <Box
-              width="100%"
-              m="0 auto"
-              p="5px"
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              borderRadius="4px"
-              sx={{
-                cursor: "pointer",
-                backgroundColor: row.status === true ? "#5D9C59" : "#FC2947",
-              }}
-            >
-              <Typography color="#fff">
-                {row.status === true ? "Aktif" : "Pasif"}
-              </Typography>
-            </Box>
-          </Tooltip>
+          <Box
+            width="100%"
+            m="0 auto"
+            p="5px"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            borderRadius="4px"
+            sx={{
+              backgroundColor: row.status === true ? "#5D9C59" : "#FC2947",
+            }}
+          >
+            <Typography color="#fff">
+              {row.status === true ? "Aktif" : "Pasif"}
+            </Typography>
+          </Box>
         );
       },
     },
@@ -75,7 +66,11 @@ const UsersTable = ({ pageState, setPageState, getUsers }) => {
               setOpen={setOpen}
               title={`#${rowSelectionModel?.id} Kullanıcı Güncelle`}
             >
-              <UpdateUserForm data={rowSelectionModel} setOpen={setOpen} getUsers={getUsers} />
+              <UpdateUserForm
+                data={rowSelectionModel}
+                setOpen={setOpen}
+                getUsers={getUsers}
+              />
             </Popup>
           </>
         );
@@ -109,7 +104,6 @@ const UsersTable = ({ pageState, setPageState, getUsers }) => {
         pagination
         page={pageState.page - 1}
         pageSize={pageState.pageSize}
-        onCellEditStop={() => console.log("dsasad")}
         getRowId={(row) => row.id}
         hideFooterSelectedRowCount
         onRowSelectionModelChange={(ids) => {

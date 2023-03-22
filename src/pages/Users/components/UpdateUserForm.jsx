@@ -1,11 +1,17 @@
-import { Box, FormLabel, Grid, Button, TextField } from "@mui/material";
+import {
+  Box,
+  FormLabel,
+  Grid,
+  Button,
+  TextField,
+  FormControl,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+} from "@mui/material";
 import React, { useState } from "react";
 import { LoadingButton } from "@mui/lab";
 import useToast from "../../../hooks/useToast";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
 const UpdateUserForm = ({ data, setOpen, getUsers }) => {
@@ -15,8 +21,6 @@ const UpdateUserForm = ({ data, setOpen, getUsers }) => {
 
   const [name, setName] = useState(data?.name);
   const [surname, setSurname] = useState(data?.surname);
-  const [email, setEmail] = useState(data?.email);
-  const [username, setUsername] = useState(data?.username);
   const [status, setStatus] = useState(data?.status);
 
   const handleFormSubmit = async (e) => {
@@ -24,19 +28,20 @@ const UpdateUserForm = ({ data, setOpen, getUsers }) => {
     try {
       setLoading(true);
 
-      var data = {
-        USER_ID: data?.id,
+      var values = {
+        useR_ID: data?.id,
         name,
         surname,
-        email,
-        username,
-        status,
+        email: data?.email,
+        username: data?.username,
+        status: status === "true",
         createdDate: data?.createdDate,
       };
 
-      await axiosPrivate.put("/users", data);
+      await axiosPrivate.put("/users", values);
       _showToast.showSuccess("Kullanıcı güncellendi!");
       await getUsers();
+      
       setLoading(false);
       setOpen(false);
     } catch (error) {
@@ -76,7 +81,7 @@ const UpdateUserForm = ({ data, setOpen, getUsers }) => {
             fullWidth
             label="Email"
             disabled
-            value={email}
+            value={data?.email}
             id="email"
             type="email"
             required
@@ -88,13 +93,13 @@ const UpdateUserForm = ({ data, setOpen, getUsers }) => {
             fullWidth
             label="Username"
             disabled
-            value={username}
+            value={data?.username}
             id="username"
             type="username"
             required
           />
         </Grid>
-        <Grid item sm={12} style={{ marginBottom: 25 }}>
+        <Grid item sm={12} style={{ marginBottom: 10 }}>
           <FormControl>
             <FormLabel id="demo-radio-buttons-group-label">Durumu</FormLabel>
             <RadioGroup
@@ -117,7 +122,7 @@ const UpdateUserForm = ({ data, setOpen, getUsers }) => {
           </FormControl>
         </Grid>
       </Grid>
-      <Box sx={{ marginTop: 5 }}>
+      <Box sx={{ marginTop: 2 }}>
         <Button
           sx={{ marginRight: 1 }}
           variant="outlined"

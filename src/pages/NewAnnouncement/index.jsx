@@ -21,6 +21,7 @@ const NewAnnouncement = () => {
   const [_showToast] = useToast();
 
   const [title, setTitle] = useState("");
+  const [link, setLink] = useState("");
   const [details, setDetails] = useState("");
   const [image, setImage] = useState("");
 
@@ -34,6 +35,7 @@ const NewAnnouncement = () => {
       const formData = new FormData();
 
       formData.append("Title", title);
+      formData.append("Link", link);
       formData.append("Details", details);
       formData.append("ImageFile", image);
       formData.append("CreatedDate", createdDate);
@@ -73,6 +75,17 @@ const NewAnnouncement = () => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               id="title"
+              required
+            />
+          </Grid>
+          <Grid item sm={12} style={{ marginBottom: 27 }}>
+            <TextField
+              variant="standard"
+              fullWidth
+              label="Link"
+              value={link}
+              onChange={(e) => setLink(e.target.value)}
+              id="link"
               required
             />
           </Grid>

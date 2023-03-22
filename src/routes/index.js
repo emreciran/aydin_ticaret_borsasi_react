@@ -15,7 +15,6 @@ import Profile from "../pages/Profile";
 import NewAnnouncement from "../pages/NewAnnouncement";
 import NewNews from "../pages/NewNews";
 import Users from "../pages/Users";
-import NewUser from "../pages/NewUser";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -33,7 +32,6 @@ const routes = createBrowserRouter(
           </Route>
           <Route path="kullanicilar">
             <Route index element={<Users />} />
-            <Route path="yeni" element={<NewUser />} />
           </Route>
           <Route path="profil" element={<Profile />} />
         </Route>

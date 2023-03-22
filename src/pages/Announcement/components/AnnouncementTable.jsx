@@ -25,6 +25,7 @@ const AnnouncementTable = ({
   const columns = [
     { field: "id", headerName: "#" },
     { field: "title", headerName: "Duyuru Başlığı" },
+    { field: "link", headerName: "Duyuru Linki" },
     { field: "createdDate", headerName: "Oluşturma Zamanı" },
     {
       field: "update",
@@ -74,6 +75,7 @@ const AnnouncementTable = ({
     ? pageState?.data.map((row) => ({
         id: row.id,
         title: row.title,
+        link: row.link,
         details: row.details,
         imageName: row.imageName,
         createdDate: row.createdDate,

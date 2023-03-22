@@ -5,9 +5,13 @@ import useToast from "../../hooks/useToast";
 import UsersTable from "./components/UsersTable";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import Popup from "../../components/Popup";
+import NewUser from "./components/NewUser";
 
 const Users = () => {
   const axiosPrivate = useAxiosPrivate();
+  const [open, setOpen] = useState(false);
+
   const [pageState, setPageState] = useState({
     isLoading: false,
     data: [],
@@ -15,8 +19,6 @@ const Users = () => {
     page: 1,
     pageSize: 5,
   });
-
-  const navigate = useNavigate();
 
   const [_showToast] = useToast();
 
@@ -69,10 +71,13 @@ const Users = () => {
           <Button
             variant="outlined"
             endIcon={<AddCircleIcon />}
-            onClick={() => navigate("/kullanicilar/yeni")}
+            onClick={() => setOpen(true)}
           >
             Yeni Kullanıcı
           </Button>
+          <Popup open={open} setOpen={setOpen} title={"Yeni Kullanıcı"}>
+            <NewUser setOpen={setOpen} getUsers={getUsers} />
+          </Popup>
         </Box>
       </Box>
       <UsersTable

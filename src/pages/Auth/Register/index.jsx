@@ -30,18 +30,21 @@ const Register = () => {
     username,
     password,
     confirmPassword,
+    status: false,
   };
 
   const handleFormSubmit = async (values) => {
     try {
       setLoading(true);
       await RegisterUser(values);
-      _showToast.showSuccess("Kullanıcı oluşturuldu!")
+      _showToast.showSuccess("Kullanıcı oluşturuldu!");
       navigate("/auth/login");
     } catch (error) {
       if (error) {
         setLoading(false);
-        _showToast.showError(error.response ? error.response.data.message : error.message);
+        _showToast.showError(
+          error.response ? error.response.data.message : error.message
+        );
       }
     }
   };
@@ -55,7 +58,7 @@ const Register = () => {
         alignItems: "center",
       }}
     >
-      <img src={Logo} alt="" width={250} style={{marginBottom: "10px"}} />
+      <img src={Logo} alt="" width={250} style={{ marginBottom: "10px" }} />
 
       <Typography component="h1" variant="h5">
         Kayıt Ol

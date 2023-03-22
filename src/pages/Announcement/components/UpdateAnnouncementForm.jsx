@@ -12,6 +12,7 @@ const UpdateAnnouncementForm = ({ data, setOpen, getAnnouncement }) => {
   const [_showToast] = useToast();
 
   const [title, setTitle] = useState(data?.title);
+  const [link, setLink] = useState(data?.link);
   const [details, setDetails] = useState(data?.details);
   const [image, setImage] = useState(data?.imageName);
   const [newImage, setNewImage] = useState();
@@ -24,6 +25,7 @@ const UpdateAnnouncementForm = ({ data, setOpen, getAnnouncement }) => {
 
       formData.append("Id", data?.id);
       formData.append("Title", title);
+      formData.append("Link", link);
       formData.append("Details", details);
       formData.append("ImageName", image);
       formData.append("ImageFile", newImage);
@@ -55,6 +57,17 @@ const UpdateAnnouncementForm = ({ data, setOpen, getAnnouncement }) => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             id="title"
+            required
+          />
+        </Grid>
+        <Grid item sm={12} style={{ marginBottom: 25 }}>
+          <TextField
+            variant="standard"
+            fullWidth
+            label="Link"
+            value={link}
+            onChange={(e) => setLink(e.target.value)}
+            id="link"
             required
           />
         </Grid>
